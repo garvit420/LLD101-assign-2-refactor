@@ -1,13 +1,20 @@
 public class OrderService {
-    double taxRate = 0.18;
-    EmailClient email = new EmailClient();
-
-    double totalWithTax(double subtotal) {
-        return subtotal + subtotal * taxRate;
+    private TaxCalculator taxCalculator;
+    private OrderNotificationService notificationService;
+    private OrderRepository orderRepository;
+    
+    // Constructor injection - dependencies are injected from outside
+    public OrderService(TaxCalculator taxCalculator, 
+                       OrderNotificationService notificationService, 
+                       OrderRepository orderRepository) {
+        this.taxCalculator = taxCalculator;
+        this.notificationService = notificationService;
+        this.orderRepository = orderRepository;
     }
-    void checkout(String customerEmail, double subtotal) {
-        double total = totalWithTax(subtotal);
-        email.send(customerEmail, "Thanks! Your total is " + total);
-        System.out.println("Order stored (pretend DB).");
+    
+    public void checkout(String customerEmail, double subtotal) {
+        double total = taxCalculator.calculateTotalWithTax(subtotal);
+        notificationService.sendOrderConfirmation(customerEmail, total);
+        orderRepository.saveOrder(customerEmail, total);
     }
 }
