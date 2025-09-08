@@ -1,0 +1,8 @@
+id,email,displayName
+user1,john.doe@example.com,John Doe
+user2,jane.smith@test.org,Jane Smith
+user3,bob.wilson@company.net,Bob Wilson
+invalid1,,Missing Email
+invalid2,bad-email,Invalid Email Format
+,alice@test.com,Missing ID
+user4,charlie@domain.co,Charlie Brown
